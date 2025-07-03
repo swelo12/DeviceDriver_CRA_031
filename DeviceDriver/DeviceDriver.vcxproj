@@ -131,6 +131,7 @@
     <ClCompile Include="main.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"> %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
+    <ClCompile Include="test_flash_memory_device.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="device_driver.h" />
