@@ -19,6 +19,8 @@ public:
 class DeviceDriver
 {
 public:
+    static const int ERASED_PAGE = 0xFF;
+
     DeviceDriver(FlashMemoryDevice& hardware);
     int read(long address);
     void write(long address, int data);
@@ -27,7 +29,10 @@ protected:
     FlashMemoryDevice& m_hardware;
 private:
     const int READ_ITERATION = 5;
+    const int FIRST_DATA = 0;
 
     std::vector<int> readHardWare(const long address);
     bool isReadValid(std::vector<int> readResult);
+
+    bool isWritable(const long address);
 };

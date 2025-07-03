@@ -14,11 +14,12 @@ int DeviceDriver::read(long address)
         throw DeviceDriverException("ReadFailException.");
     }
 
-    return readResult[0];
+    return readResult[FIRST_DATA];
 }
 
 std::vector<int> DeviceDriver::readHardWare(const long address) {
     std::vector<int> readResult;
+
     for (int iter = 0; iter < READ_ITERATION; iter++) {
         readResult.push_back((int)(m_hardware.read(address)));
     }
@@ -27,15 +28,27 @@ std::vector<int> DeviceDriver::readHardWare(const long address) {
 }
 
 bool DeviceDriver::isReadValid(std::vector<int> readResult) {
-    int firstData = readResult[0];
+    int firstData = readResult[FIRST_DATA];
+
     for (int data : readResult) {
         if (data != firstData) return false;
     }
+
     return true;
 }
 
 void DeviceDriver::write(long address, int data)
 {
-    // TODO: implement this method
+    if (!isWritable(address)){
+        throw DeviceDriverException("WriteFailException.");
+    }
+
     m_hardware.write(address, (unsigned char)data);
+}
+
+bool DeviceDriver::isWritable(const long address) {
+    if (ERASED_PAGE == (int)(read(address))) {
+        return true;
+    }
+    return false;
 }
